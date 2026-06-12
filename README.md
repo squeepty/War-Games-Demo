@@ -3,6 +3,8 @@
 **WARGAMES: Screens Revisited** is a browser-based audiovisual homage to the
 1983 film *WarGames*.
 
+**Live demo:** https://squeepty.github.io/War-Games-Demo/
+
 The original film was directed by **John Badham**, written by **Lawrence Lasker**
 and **Walter F. Parkes**, and stars **Matthew Broderick**, **Dabney Coleman**,
 **John Wood**, and **Ally Sheedy**.
