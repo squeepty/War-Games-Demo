@@ -23,10 +23,13 @@ const shutdownStart = 17.5;
 const shutdownDuration = 7.5;
 const titleStart = 25.35;
 const titleRevealDuration = 1.4;
-const musicCreditDelay = 20;
+const musicCreditDelay = 5;
+const fadeDelayAfterMusicCredit = 5;
 const musicCreditRevealDuration = 1.4;
-const musicHoldDuration = 30;
-const musicFadeDuration = 55;
+const musicFadeDuration = 40;
+const titleRenderedAt = titleStart + titleRevealDuration;
+const musicCreditRenderedAt = titleRenderedAt + musicCreditDelay + musicCreditRevealDuration;
+const fadeStart = musicCreditRenderedAt + fadeDelayAfterMusicCredit;
 
 export class InMemoryScene implements Scene {
   private time = 0;
@@ -41,7 +44,6 @@ export class InMemoryScene implements Scene {
 
   update(_deltaSeconds: number, elapsedSeconds: number): void {
     this.time = elapsedSeconds;
-    const fadeStart = titleStart + titleRevealDuration + musicHoldDuration;
     const fadeProgress = clamp((elapsedSeconds - fadeStart) / musicFadeDuration, 0, 1);
     this.onMusicLevel?.(1 - fadeProgress);
   }
@@ -230,7 +232,6 @@ export class InMemoryScene implements Scene {
 
   private drawEndTitle(ctx: CanvasRenderingContext2D, width: number, height: number): void {
     const revealAmount = clamp((this.time - titleStart) / titleRevealDuration, 0, 1);
-    const fadeStart = titleStart + titleRevealDuration + musicHoldDuration;
     const fadeAmount = clamp((this.time - fadeStart) / musicFadeDuration, 0, 1);
     const amount = revealAmount * (1 - fadeAmount);
     if (amount <= 0) {
@@ -296,7 +297,7 @@ export class InMemoryScene implements Scene {
       ctx.restore();
     }
 
-    const creditStart = titleStart + titleRevealDuration + musicCreditDelay;
+    const creditStart = titleRenderedAt + musicCreditDelay;
     const creditReveal = clamp((this.time - creditStart) / musicCreditRevealDuration, 0, 1);
     if (creditReveal > 0) {
       ctx.save();
